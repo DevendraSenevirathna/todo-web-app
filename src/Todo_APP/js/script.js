@@ -63,7 +63,11 @@ function displayTodos() {
                 ${todo.text}
             </span>
 
-            <button class="delete-btn">
+            <button class="edit-btn" title="Edit task">
+                ✏️
+            </button>
+
+            <button class="delete-btn" title="Delete task">
                 🗑️
             </button>
         `;
@@ -73,6 +77,13 @@ function displayTodos() {
 
         checkbox.addEventListener("change", () => {
             toggleTodo(todo.id);
+        });
+
+        // Edit task
+        const editBtn = todoItem.querySelector(".edit-btn");
+
+        editBtn.addEventListener("click", () => {
+            editTodo(todo.id);
         });
 
         // Delete task
@@ -113,6 +124,39 @@ function addTodo() {
     todoInput.value = "";
 
     todoInput.focus();
+}
+
+// Edit todo
+function editTodo(id) {
+
+    const todo = todos.find(todo => todo.id === id);
+
+    if (!todo) {
+        return;
+    }
+
+    const updatedText = prompt(
+        "Edit your task:",
+        todo.text
+    );
+
+    // Cancel button
+    if (updatedText === null) {
+        return;
+    }
+
+    // Empty input
+    if (updatedText.trim() === "") {
+        alert("Task cannot be empty.");
+        return;
+    }
+
+    // Update task
+    todo.text = updatedText.trim();
+
+    saveTodos();
+
+    displayTodos();
 }
 
 // Toggle complete
