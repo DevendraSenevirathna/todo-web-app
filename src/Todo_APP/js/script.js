@@ -182,6 +182,20 @@ function toggleTodo(id) {
 // Delete todo
 function deleteTodo(id) {
 
+    const todo = todos.find(todo => todo.id === id);
+
+    if (!todo) {
+        return;
+    }
+
+    const confirmDelete = confirm(
+        `Are you sure you want to delete "${todo.text}"?`
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
     todos = todos.filter(todo => {
         return todo.id !== id;
     });
