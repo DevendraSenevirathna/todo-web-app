@@ -1,13 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const taskController = require("../controllers/taskController");
 
-// Base path එක: /api/tasks
+const authMiddleware = require("../middleware/authMiddleware");
+const {
+  getTasks,
+  createTask,
+  updateTask,
+  toggleTask,
+  deleteTask
+} = require("../controllers/taskController");
 
-// GET /api/tasks (සියලුම Tasks ලබාගැනීමට)
-router.get("/", taskController.getAllTasks);
+// Every task route requires a valid JWT
+router.use(authMiddleware);
 
-// POST /api/tasks (අලුත් Task එකක් එකතු කිරීමට)
-router.post("/", taskController.createTask);
+router.get("/", getTasks);
+router.post("/", createTask);
+router.put("/:id", updateTask);
+router.patch("/:id/toggle", toggleTask);
+router.delete("/:id", deleteTask);
 
 module.exports = router;
