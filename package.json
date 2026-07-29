@@ -5,9 +5,9 @@
   "main": "src/backend/server.js",
   "scripts": {
     "start": "node src/backend/server.js",
-    "build": "echo \"Building project...\"",
-    "test": "echo \"Running tests...\" && exit 0",
-    "lint": "echo \"Checking code...\""
+    "build": "echo 'Building project...'",
+    "test": "echo 'No tests specified' && exit 0",
+    "lint": "echo 'No lint script configured' && exit 0"
   },
   "keywords": [],
   "author": "",
