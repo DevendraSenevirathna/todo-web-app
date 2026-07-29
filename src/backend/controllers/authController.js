@@ -1,42 +1,65 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
+exports.registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-exports.registerUser = async (req,res)=>{
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Name, email and password are required" });
+    }
 
-    const {name,email,password} = req.body;
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already registered" });
+    }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.create(name, email, hashedPassword);
 
-    const hashedPassword = await bcrypt.hash(password,10);
-
-
-    res.json({
-        message:"Register API working",
-        user:{
-            name,
-            email,
-            password:hashedPassword
-        }
-    });
-
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Registration failed", error: error.message });
+  }
 };
 
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-exports.loginUser = async(req,res)=>{
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
-    const {email,password} = req.body;
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const token = jwt.sign(
-        {email},
-        "secretkey",
-        {expiresIn:"1h"}
+      { id: user.id, email: user.email, name: user.name },
+      process.env.JWT_SECRET || "secretkey",
+      { expiresIn: "1h" }
     );
 
-
     res.json({
-        message:"Login API working",
-        token
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
     });
-
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Login failed", error: error.message });
+  }
 };

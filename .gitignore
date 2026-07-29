@@ -1,0 +1,5 @@
+node_modules/
+src/backend/node_modules/
+.env
+src/backend/.env
+.DS_Store
