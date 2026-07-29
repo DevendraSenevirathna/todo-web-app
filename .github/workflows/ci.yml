@@ -20,11 +20,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Root Dependencies
-        run: npm install
-
-      - name: Run Linter
-        run: npm run lint
+      - name: Install Dependencies
+        run: npm run install-all
 
       - name: Build Project
         run: npm run build
