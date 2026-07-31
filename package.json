@@ -1,16 +1,15 @@
 {
   "name": "todo-web-app",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Todo Web App for DevOps Assignment",
   "main": "src/backend/server.js",
   "scripts": {
-    "install-all": "npm install && cd src/backend && npm install",
     "start": "node src/backend/server.js",
-    "build": "echo 'Building project structures...' && cd src/backend && npm install",
+    "build": "echo 'Building project...'",
     "test": "echo 'No tests specified' && exit 0",
     "lint": "echo 'No lint script configured' && exit 0"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Devendra Senevirathna, Shashinka Srimal, Theekshana Didula",
+  "license": "MIT"
 }
