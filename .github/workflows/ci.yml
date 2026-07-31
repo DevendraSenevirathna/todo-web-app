@@ -20,11 +20,29 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Dependencies
-        run: npm run install-all
+      - name: Install Root Dependencies
+        run: npm install
+
+      - name: Run Linter
+        run: npm run lint
 
       - name: Build Project
         run: npm run build
 
       - name: Run Unit Tests
+        run: npm run test
+
+      - name: Install Backend Dependencies
+        working-directory: src/backend
+        run: npm install
+
+      - name: Backend Syntax Check
+        working-directory: src/backend
+        run: |
+          for f in $(find . -name "*.js" -not -path "./node_modules/*"); do
+            node --check "$f"
+          done
+
+      - name: Run Backend Tests
+        working-directory: src/backend
         run: npm run test
