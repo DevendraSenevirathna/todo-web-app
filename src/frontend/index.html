@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Dashboard</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <header class="dashboard-header">
+            <div class="dashboard-logo">
+                <span>✓</span>
+                <h1>TaskFlow</h1>
+            </div>
+            <div class="dashboard-user">
+                <span id="userGreeting"></span>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+
+            <form id="taskForm" class="task-form">
+                <input type="text" id="taskInput" placeholder="What needs to be done?" required>
+                <button type="submit">Add Task</button>
+            </form>
+
+            <ul id="taskList" class="task-list"></ul>
+
+        </main>
+
+    </div>
+
+    <script src="scripts/app.js"></script>
+
+</body>
+
+</html>
