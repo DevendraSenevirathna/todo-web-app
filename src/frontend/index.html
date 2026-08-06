@@ -46,15 +46,38 @@
                     autocomplete="off"
                     required
                 >
+
                 <button type="submit">
-                    <span>+</span> Add Task
+                    <span>+</span>
+                    Add Task
                 </button>
             </form>
 
+            <!-- Search -->
+            <div class="task-search">
+                <span class="search-icon">⌕</span>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search your tasks..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Filters -->
             <div class="task-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button class="filter-btn active" data-filter="all">
+                    All
+                </button>
+
+                <button class="filter-btn" data-filter="active">
+                    Active
+                </button>
+
+                <button class="filter-btn" data-filter="completed">
+                    Completed
+                </button>
             </div>
 
             <ul id="taskList" class="task-list"></ul>
