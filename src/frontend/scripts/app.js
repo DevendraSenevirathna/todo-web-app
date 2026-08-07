@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/tasks";
+const API_BASE = "/api/tasks";
 
 let allTasks = [];
 let currentFilter = "all";
