@@ -17,6 +17,7 @@
                 <span>✓</span>
                 <h1>TaskFlow</h1>
             </div>
+
             <div class="dashboard-user">
                 <span id="userGreeting"></span>
                 <button id="logoutBtn" class="logout-btn">Logout</button>
@@ -25,10 +26,59 @@
 
         <main class="dashboard-main">
 
+            <div class="dashboard-title">
+                <div>
+                    <h2>My Tasks</h2>
+                    <p>Stay organized and get things done.</p>
+                </div>
+
+                <div class="task-count">
+                    <strong id="taskCount">0</strong>
+                    <span>Tasks</span>
+                </div>
+            </div>
+
             <form id="taskForm" class="task-form">
-                <input type="text" id="taskInput" placeholder="What needs to be done?" required>
-                <button type="submit">Add Task</button>
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="What needs to be done?"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    <span>+</span>
+                    Add Task
+                </button>
             </form>
+
+            <!-- Search -->
+            <div class="task-search">
+                <span class="search-icon">⌕</span>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search your tasks..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Filters -->
+            <div class="task-filters">
+                <button class="filter-btn active" data-filter="all">
+                    All
+                </button>
+
+                <button class="filter-btn" data-filter="active">
+                    Active
+                </button>
+
+                <button class="filter-btn" data-filter="completed">
+                    Completed
+                </button>
+            </div>
 
             <ul id="taskList" class="task-list"></ul>
 
