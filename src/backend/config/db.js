@@ -7,6 +7,12 @@ const db = mysql.createConnection({
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "todo_app",
+    ssl: process.env.DB_CA_CERT
+        ? {
+            ca: process.env.DB_CA_CERT.replace(/\\n/g, "\n")
+        }
+        : undefined,
+
     multipleStatements: true
 });
 
