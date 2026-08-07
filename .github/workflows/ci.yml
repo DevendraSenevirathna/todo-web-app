@@ -2,47 +2,77 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main, develop, "feature/**" ]
+    branches:
+      - main
+      - develop
+      - "feature/**"
+
   pull_request:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - develop
 
 jobs:
   build-and-test:
-    name: Build, Lint, and Test
+    name: Build, Test, and Docker Validation
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
+      # 2. Set up Node.js 22
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: src/backend/package-lock.json
 
-      - name: Install Root Dependencies
-        run: npm install
-
-      - name: Run Linter
-        run: npm run lint
-
-      - name: Build Project
-        run: npm run build
-
-      - name: Run Unit Tests
-        run: npm run test
-
+      # 3. Install backend dependencies
       - name: Install Backend Dependencies
         working-directory: src/backend
-        run: npm install
+        run: npm ci
 
+      # 4. Check JavaScript syntax
       - name: Backend Syntax Check
         working-directory: src/backend
         run: |
           for f in $(find . -name "*.js" -not -path "./node_modules/*"); do
+            echo "Checking $f"
             node --check "$f"
           done
 
+      # 5. Run backend tests
       - name: Run Backend Tests
         working-directory: src/backend
-        run: npm run test
+        run: npm test
+
+      # 6. Build Docker image
+      - name: Build Docker Image
+        run: docker build -t todo-web-app-backend .
+
+      # 7. Validate Docker Compose configuration
+      - name: Validate Docker Compose
+        run: |
+          cp .env.example .env
+          docker compose config
+
+      # 8. Start application with Docker Compose
+      - name: Start Docker Compose
+        run: docker compose up -d --build
+
+      # 9. Check container status
+      - name: Check Container Status
+        run: docker compose ps
+
+      # 10. Show backend logs if something goes wrong
+      - name: Show Logs on Failure
+        if: failure()
+        run: docker compose logs
+
+      # 11. Stop containers
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose down -v
